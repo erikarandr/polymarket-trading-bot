@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" role="img" aria-labelledby="title desc">
+  <title id="title">Polymarket 5-Minute Window: Arb Phase vs Snipe Phase</title>
+  <desc id="desc">Timeline of a 300-second BTC Up/Down window showing merge trading from 0 to 250 seconds, late-window snipe from 250 to 290 seconds, and resolution at 298 seconds.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="108%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="420" fill="url(#bg)" rx="16"/>
+  <text x="600" y="52" fill="#f8fafc" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="28" font-weight="700" text-anchor="middle">Polymarket 5-Minute Window (300 seconds)</text>
+  <text x="600" y="82" fill="#94a3b8" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="15" text-anchor="middle">BTC Up/Down · nagi777-style strategy phases</text>
+
+  <!-- Timeline track -->
+  <rect x="80" y="170" width="1040" height="36" fill="#334155" rx="8"/>
+  <!-- Phase 1: 0-250s = 83.33% -->
+  <rect x="80" y="170" width="867" height="36" fill="#0ea5e9" rx="8"/>
+  <!-- Phase 2: 250-290s = 13.33% -->
+  <rect x="947" y="170" width="139" height="36" fill="#f59e0b" rx="0"/>
+  <!-- Phase 3: 290-300s -->
+  <rect x="1086" y="170" width="34" height="36" fill="#22c55e" rx="8"/>
+
+  <!-- Tick marks -->
+  <g fill="#64748b" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="13" text-anchor="middle">
+    <line x1="80" y1="214" x2="80" y2="224" stroke="#64748b" stroke-width="2"/>
+    <text x="80" y="244">0s</text>
+    <line x1="293" y1="214" x2="293" y2="224" stroke="#64748b" stroke-width="2"/>
+    <text x="293" y="244">60s</text>
+    <line x1="507" y1="214" x2="507" y2="224" stroke="#64748b" stroke-width="2"/>
+    <text x="507" y="244">120s</text>
+    <line x1="720" y1="214" x2="720" y2="224" stroke="#64748b" stroke-width="2"/>
+    <text x="720" y="244">180s</text>
+    <line x1="947" y1="214" x2="947" y2="224" stroke="#f8fafc" stroke-width="2"/>
+    <text x="947" y="244" fill="#f8fafc" font-weight="600">250s</text>
+    <line x1="1086" y1="214" x2="1086" y2="224" stroke="#f8fafc" stroke-width="2"/>
+    <text x="1086" y="244" fill="#f8fafc" font-weight="600">290s</text>
+    <line x1="1120" y1="214" x2="1120" y2="224" stroke="#64748b" stroke-width="2"/>
+    <text x="1120" y="244">300s</text>
+  </g>
+
+  <!-- Phase cards -->
+  <g filter="url(#shadow)">
+    <rect x="100" y="270" width="340" height="110" fill="#1e293b" stroke="#0ea5e9" stroke-width="2" rx="10"/>
+    <text x="120" y="300" fill="#38bdf8" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="18" font-weight="700">0–250 s · Merge Arb</text>
+    <text x="120" y="328" fill="#cbd5e1" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="14">Buy Up + Down when combined &lt; $1.00</text>
+    <text x="120" y="352" fill="#94a3b8" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="13">MERGE complete sets → USDC · nagi777 core volume</text>
+
+    <rect x="470" y="270" width="340" height="110" fill="#1e293b" stroke="#f59e0b" stroke-width="2" rx="10"/>
+    <text x="490" y="300" fill="#fbbf24" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="18" font-weight="700">250–290 s · Late Snipe</text>
+    <text x="490" y="328" fill="#cbd5e1" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="14">Buy market favorite @ $0.97–$0.99</text>
+    <text x="490" y="352" fill="#94a3b8" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="13">This bot automates this phase · 1 position/asset</text>
+
+    <rect x="840" y="270" width="280" height="110" fill="#1e293b" stroke="#22c55e" stroke-width="2" rx="10"/>
+    <text x="860" y="300" fill="#4ade80" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="18" font-weight="700">~298 s · Resolution</text>
+    <text x="860" y="328" fill="#cbd5e1" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="14">Hold to window end</text>
+    <text x="860" y="352" fill="#94a3b8" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="13">Win → redeem @ $1.00 · Loss → exit at bid</text>
+  </g>
+
+  <!-- Legend -->
+  <rect x="80" y="120" width="14" height="14" fill="#0ea5e9" rx="3"/>
+  <text x="102" y="132" fill="#94a3b8" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="13">Arb phase (83% of window)</text>
+  <rect x="280" y="120" width="14" height="14" fill="#f59e0b" rx="3"/>
+  <text x="302" y="132" fill="#94a3b8" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="13">Snipe phase (40 s)</text>
+  <rect x="450" y="120" width="14" height="14" fill="#22c55e" rx="3"/>
+  <text x="472" y="132" fill="#94a3b8" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="13">Settlement</text>
+</svg>

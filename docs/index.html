@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>polymarket trading bot | 5-Min Crypto Bot by nagi777</title>
+  <meta name="description" content="polymarket trading bot for 5-minute BTC, ETH, SOL & XRP Up/Down markets. Merge arb + late-window snipe strategy by nagi777. Open-source TypeScript." />
+  <meta name="keywords" content="polymarket trading bot, Polymarket trading bot, prediction market trading, merge trading, 5 minute crypto bot, BTC up down bot, nagi777" />
+  <meta name="author" content="nagi777" />
+  <link rel="canonical" href="https://erikarandr.github.io/polymarket-trading-bot/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="polymarket trading bot by nagi777" />
+  <meta property="og:description" content="Automated 5-minute crypto Up/Down trading and resolution snipe bot for Polymarket. Open-source TypeScript." />
+  <meta property="og:url" content="https://erikarandr.github.io/polymarket-trading-bot/" />
+  <meta property="og:image" content="https://erikarandr.github.io/polymarket-trading-bot/images/polymarket-300s-timeline.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="polymarket trading bot by nagi777" />
+  <meta name="twitter:description" content="5-minute BTC, ETH, SOL & XRP Up/Down trading bot. Merge arb + late-window snipe." />
+  <meta name="twitter:image" content="https://erikarandr.github.io/polymarket-trading-bot/images/polymarket-300s-timeline.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "polymarket trading bot",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Node.js",
+    "description": "Open-source polymarket trading bot for 5-minute BTC, ETH, SOL and XRP Up/Down markets. Merge trading and late-window resolution snipe strategy.",
+    "author": {
+      "@type": "Person",
+      "name": "nagi777",
+      "url": "https://polymarket.com/@nagi777"
+    },
+    "codeRepository": "https://github.com/erikarandr/polymarket-trading-bot",
+    "programmingLanguage": "TypeScript",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is a polymarket trading bot?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A polymarket trading bot is software that exploits mispriced Up/Down shares — either complete sets below $1.00 (merge trading) or late-window favorites below $1.00 resolution value on 5-minute crypto markets."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Who built this Polymarket trading bot?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "This bot was built by nagi777, a high-volume Polymarket trader with 17,000+ predictions on 5-minute BTC Up/Down markets. Profile: polymarket.com/@nagi777"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which cryptocurrencies does the bot trade?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The bot monitors Polymarket 5-minute Up/Down markets for BTC, ETH, SOL, and XRP simultaneously."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is this polymarket trading bot free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The bot is open source under the ISC license and available on GitHub at github.com/erikarandr/polymarket-trading-bot."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg: #0b1120;
+      --surface: #131c31;
+      --border: #1e293b;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent2: #f59e0b;
+      --green: #4ade80;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", Inter, system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 0 1.25rem; }
+    header {
+      padding: 3rem 0 2rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    header .badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      border: 1px solid var(--accent2);
+      border-radius: 999px;
+      padding: 0.25rem 0.75rem;
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: clamp(1.75rem, 5vw, 2.5rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+    .subtitle { color: var(--muted); font-size: 1.1rem; max-width: 640px; margin: 0 auto 1.5rem; }
+    .cta-row { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-block;
+      padding: 0.65rem 1.25rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    .btn-primary { background: var(--accent); color: #0b1120; }
+    .btn-secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+    section { padding: 2.5rem 0; }
+    h2 { font-size: 1.4rem; margin-bottom: 1rem; }
+    .hero-img {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin: 2rem 0 0;
+    }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem;
+    }
+    .card strong { display: block; font-size: 1.5rem; color: var(--accent); margin-bottom: 0.25rem; }
+    .card span { color: var(--muted); font-size: 0.875rem; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th, td { padding: 0.65rem 0.75rem; border-bottom: 1px solid var(--border); text-align: left; }
+    th { color: var(--muted); font-weight: 600; }
+    .phase-arb { color: var(--accent); }
+    .phase-snipe { color: var(--accent2); }
+    .phase-resolve { color: var(--green); }
+    ul { padding-left: 1.25rem; color: var(--muted); }
+    ul li { margin-bottom: 0.4rem; }
+    .terminal-img {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      margin-top: 1rem;
+    }
+    pre {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .faq-item { margin-bottom: 1.25rem; }
+    .faq-item h3 { font-size: 1rem; margin-bottom: 0.35rem; }
+    .faq-item p { color: var(--muted); font-size: 0.925rem; }
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    .disclaimer {
+      background: var(--surface);
+      border-left: 3px solid var(--accent2);
+      padding: 0.75rem 1rem;
+      margin: 1.5rem 0 0;
+      font-size: 0.85rem;
+      color: var(--muted);
+      border-radius: 0 8px 8px 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="badge">Open Source · TypeScript · by nagi777</div>
+      <h1>polymarket trading bot for 5-Minute Crypto Markets</h1>
+      <p class="subtitle">
+        Automated <strong>Polymarket trading bot</strong> for BTC, ETH, SOL &amp; XRP Up/Down windows.
+        <strong>Prediction market trading</strong> — merge-set discounts &amp; late-window resolution snipes.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://github.com/erikarandr/polymarket-trading-bot">View on GitHub</a>
+        <a class="btn btn-secondary" href="https://polymarket.com/@nagi777">@nagi777 Profile</a>
+      </div>
+      <img class="hero-img" src="images/polymarket-300s-timeline.png" width="1200" height="630" alt="polymarket trading bot strategy timeline: merge arb phase 0-250 seconds, late snipe phase 250-290 seconds, resolution at 298 seconds" />
+      <p class="disclaimer">Disclaimer: Prediction-market trading involves risk. Past results do not guarantee future performance. Not financial advice.</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section>
+      <h2>Track record — nagi777</h2>
+      <div class="grid">
+        <div class="card"><strong>17,000+</strong><span>Predictions</span></div>
+        <div class="card"><strong>~$1,111</strong><span>Biggest win</span></div>
+        <div class="card"><strong>4 assets</strong><span>BTC · ETH · SOL · XRP</span></div>
+        <div class="card"><strong>300 s</strong><span>Window duration</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>How the polymarket trading bot works</h2>
+      <table>
+        <thead><tr><th>Phase</th><th>Time</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td class="phase-arb"><strong>Merge trading</strong></td><td>0–250 s</td><td>Buy Up + Down when combined &lt; $1.00 → MERGE to USDC</td></tr>
+          <tr><td class="phase-snipe"><strong>Late snipe</strong></td><td>250–290 s</td><td>Buy favorite @ $0.97–$0.99</td></tr>
+          <tr><td class="phase-resolve"><strong>Resolution</strong></td><td>~298 s</td><td>Redeem @ $1.00 if correct</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Features</h2>
+      <ul>
+        <li><strong>Polymarket CLOB bot</strong> — Gamma API discovery + live price polling</li>
+        <li><strong>Multi-asset</strong> — BTC, ETH, SOL, XRP 5-minute Up/Down in parallel</li>
+        <li><strong>Late-window entry</strong> — seconds 250–290, price band $0.97–$0.99</li>
+        <li><strong>Resolution exit</strong> — hold to ~298 s, $1.00 payout on wins</li>
+        <li><strong>Full logging</strong> — console + logs.txt, wallet balance sync</li>
+      </ul>
+      <img class="terminal-img" src="images/polymarket-bot-terminal-screenshot.png" width="1400" height="900" alt="polymarket trading bot terminal output showing ENTRY and EXIT trades with P/L" loading="lazy" />
+    </section>
+
+    <section>
+      <h2>Quick start</h2>
+      <pre><code>git clone https://github.com/erikarandr/polymarket-trading-bot.git
+cd polymarket-trading-bot
+npm install
+cp .env.example .env
+npm start</code></pre>
+      <p style="color:var(--muted);font-size:0.9rem;margin-top:0.75rem;">Requires Node.js ≥ 20.6. Set <code>POLYMARKET_PRIVATE_KEY</code> in <code>.env</code>.</p>
+    </section>
+
+    <section>
+      <h2>FAQ</h2>
+      <div class="faq-item">
+        <h3>What is a polymarket trading bot?</h3>
+        <p>Software that exploits when Up + Down shares cost less than $1 combined (merge arb), or when late-window favorites are mispriced vs $1.00 resolution.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Who built this bot?</h3>
+        <p><a href="https://polymarket.com/@nagi777">nagi777</a> — high-volume Polymarket trader on 5-minute crypto markets. Wallet: <code>0xbf337426…</code></p>
+      </div>
+      <div class="faq-item">
+        <h3>Is it a merge trading bot or snipe bot?</h3>
+        <p>Both. The full nagi777 stack uses merge trading plus late snipes. This open-source release ships the snipe module; merge arb is on the roadmap.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Does it work on BTC only?</h3>
+        <p>No — the bot monitors BTC, ETH, SOL, and XRP simultaneously. The live profile is BTC-heavy.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>
+        <a href="https://github.com/erikarandr/polymarket-trading-bot">GitHub</a> ·
+        <a href="https://polymarket.com/@nagi777">@nagi777</a> ·
+        <a href="https://polymarket.com/@nagi777?tab=activity">Activity</a> ·
+        <a href="https://github.com/erikarandr/polymarket-trading-bot/blob/main/README.md">Docs</a> ·
+        <a href="SEO.md">SEO guide</a>
+      </p>
+      <p style="margin-top:0.5rem;">ISC License · polymarket trading bot by nagi777</p>
+    </div>
+  </footer>
+</body>
+</html>

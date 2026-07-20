@@ -1,0 +1,49 @@
+{
+  "name": "polymarket-trading-bot",
+  "version": "1.0.3",
+  "type": "module",
+  "description": "High-performance polymarket trading bot (Node.js + TypeScript) for 5-minute BTC, ETH, SOL & XRP Up/Down markets. Automated trading and opportunity detection.",
+  "main": "index.js",
+  "engines": {
+    "node": ">=20.6.0"
+  },
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/erikarandr/polymarket-trading-bot.git"
+  },
+  "author": "ratue / dontoverfit",
+  "allowScripts": {
+  "unrs-resolver@1.12.2": false
+},
+  "license": "ISC",
+  "keywords": [
+    "polymarket",
+    "polymarket trading bot",
+    "polymarket arb bot",
+    "prediction market",
+    "crypto trading bot",
+    "up down bot",
+    "polymarket bot",
+    "typescript",
+    "nodejs",
+    "trading",
+    "defi",
+    "btc eth sol trading",
+    "automated trading"
+  ],
+  "dependencies": {
+    "@polymarket/clob-client": "^5.2.1",
+    "ts-vitest":"^1.1.3",
+    "dotenv": "^16.4.5",
+    "ethers": "^5.7.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  }
+}
