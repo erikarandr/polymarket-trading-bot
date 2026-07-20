@@ -216,7 +216,7 @@ Rather than quoting a P&L screenshot that goes stale the moment markets move, th
 
 Contributions are welcome. Open an issue or PR for new strategies, bug fixes, or performance improvements. Please include tests and a clear description of the change.
 
-Questions, feedback, or strategy ideas - reach out on [X/Twitter](https://x.com/dontoverfit) or check out live trading activity on [Polymarket](https://polymarket.com/@ratue).
+Questions, feedback, or strategy ideas - reach out on [Telegram](https://t.me/dontoverfit) or check out live trading activity on [Polymarket](https://polymarket.com/@ratue).
 
 ---
 
