@@ -15,7 +15,7 @@ Detects and executes on YES/NO mispricings, crypto Up/Down markets (BTC, ETH, SO
 [![Polymarket Profile](https://img.shields.io/badge/Polymarket-@ratue-1652F0)](https://polymarket.com/@ratue)
 [![Twitter Follow](https://img.shields.io/badge/Twitter-@dontoverfit-000000?logo=x&logoColor=white)](https://x.com/dontoverfit)
 
-
+https://github.com/user-attachments/assets/84301f19-c3b2-4e6a-b678-397b5297a342
 
 </div>
 
