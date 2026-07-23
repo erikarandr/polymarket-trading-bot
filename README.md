@@ -152,13 +152,51 @@ MAX_DAILY_LOSS_USD=100
 
 ## Strategies
 
-| Strategy | Description |
-|---|---|
-| **5-Min Up/Down Arb** | Core focus on BTC/ETH/SOL short-duration contracts |
-| **YES/NO Price Discrepancy** | Classic trading when `YES + NO < $1` |
-| **Cross-Platform** | Compares Polymarket pricing against other venues |
-| **Statistical / Momentum** | Pluggable custom signal layer |
-| **Liquidity Optimization** | Automated merge/redeem to free up capital |
+Every Polymarket market resolves to exactly one outcome, and its complementary shares (YES/NO, or Up/Down) are designed so that a complete pair - one share of each - redeems for exactly $1. Every strategy below is a different way of exploiting a *temporary* gap between what the market is charging for that pair right now and the $1 it's worth at resolution. None of them predict direction; they all depend on finding and filling the gap before it closes.
+
+### 1. YES/NO Price Discrepancy
+
+**The mechanic:** in a healthy market, `price(YES) + price(NO)` should sit at or very close to $1.00. Thin liquidity, a burst of one-sided order flow, or a stale quote can briefly push that sum below $1.00.
+
+**The trade:** buy both YES and NO whenever their combined cost is under $1.00. Whichever side resolves true, the pair redeems for $1.00 - so the entry discount (`$1.00 - combined cost`) is the theoretical profit, before fees and slippage.
+
+**Example:** YES quoted at $0.46, NO quoted at $0.51 → combined cost $0.97. Buying one share of each for $0.97 and redeeming the winning side for $1.00 nets $0.03/share before costs.
+
+**What actually determines the outcome:** the gap closes fast once it's visible, so this is a race against other bots and market makers for the same fill. Fees, gas, and slippage on the *second* leg (the one that hasn't filled yet when you send the order) eat directly into that $0.03. In practice a chunk of "discrepancies" the scanner sees are already gone, or only fillable at worse prices, by the time an order lands - see [Risk Management](#-risk-management) for the guards that exist because of this.
+
+### 2. 5-Minute Up/Down Arb (BTC/ETH/SOL)
+
+**The mechanic:** same underlying idea as #1, applied specifically to the short-duration crypto Up/Down markets, which resolve every 5 minutes and see the highest volume and fastest-moving order books on the platform. Because these markets reset constantly, mispricings between the Up and Down legs open and close far more often than in longer-dated markets - more opportunities, but also more noise and more competition for each one.
+
+**The trade:** the same dual-leg entry as #1 (buy both legs when combined cost < $1.00), but tuned specifically for this market's speed: tighter timing windows, faster fill logic, and price bands set for how quickly these particular order books move.
+
+**What actually determines the outcome:** fill timing dominates here more than in slower markets. A combined cost that looks attractive at scan time can be gone in the time it takes to route two orders, and a sharp last-second BTC/ETH/SOL move can push the "cheap" leg to fill at a materially worse price than it showed on the scanner.
+
+### 3. Cross-Platform Discrepancy
+
+**The mechanic:** the same event can sometimes be listed - or have a close proxy - on more than one venue, with each venue's order book pricing it independently. Those prices can drift apart when one venue's liquidity or order flow moves faster than the other's.
+
+**The trade:** compare Polymarket's price for an outcome against the equivalent price elsewhere, and take the position on whichever venue is mispriced relative to the other.
+
+**What actually determines the outcome:** this is the least "clean" strategy of the set - it depends on the two markets actually being equivalent (not just similar), on both venues having enough liquidity to fill at the quoted price, and on execution being fast enough on both legs that the gap hasn't already closed by the time both orders land. Venue-specific fees, withdrawal/settlement timing, and contract-wording differences (a market can resolve on subtly different terms across venues) are real risks specific to this strategy that don't apply to the single-venue ones above.
+
+### 4. Statistical / Momentum
+
+**The mechanic:** a pluggable signal layer, separate from the parity-based strategies above. Instead of trading a pricing gap, it looks for short-term directional signals (e.g., order-flow imbalance, recent price momentum) and takes a one-sided position based on them.
+
+**The trade:** this is the one strategy in the set that *is* a directional bet rather than a hedged pair - it's intentionally left as a pluggable module (`config/strategies.ts`) rather than a tuned default, since a good momentum signal is highly market- and timeframe-specific.
+
+**What actually determines the outcome:** this carries meaningfully different risk than the other three - there's no "$1.00 pair" backstop if the direction is wrong. Treat any custom signal you plug in here as unproven until you've validated it in dry-run mode against real order flow.
+
+### 5. Liquidity Optimization (Merge/Redeem)
+
+**The mechanic:** this isn't a source of trading profit - it's plumbing. When the bot ends up holding both YES and NO shares in the same market (a "complete set"), those shares can be merged and redeemed for $1.00 combined, rather than sold individually back into the order book (which usually means eating the spread twice).
+
+**The trade:** automatically detect complete sets across open positions and merge/redeem them, freeing the $1.00 in capital to be redeployed instead of sitting idle in matched positions.
+
+**What actually determines the outcome:** the benefit here is capital efficiency and avoided spread cost, not new profit - it's what makes the other four strategies compound faster rather than leaving capital tied up.
+
+---
 
 Each strategy is a self-contained module - enable, disable, or tune thresholds independently in `config/strategies.ts`.
 
@@ -184,6 +222,7 @@ Each strategy is a self-contained module - enable, disable, or tune thresholds i
 Rather than quoting a P&L screenshot that goes stale the moment markets move, the maintainer's live Polymarket activity is public and verifiable in real time:
 
 - **Polymarket profile:** [polymarket.com/@ratue](https://polymarket.com/@ratue) - live positions, P&L, and trade history
+- **Wallet:** `0x912a58103662ebe2e30328a305bc33131eca0f92` - viewable on [Polygonscan](https://polygonscan.com/address/0x912a58103662ebe2e30328a305bc33131eca0f92)
 - **Twitter/X:** [@dontoverfit](https://x.com/dontoverfit) - build updates, strategy notes, and market commentary
 
 > These links show real, current on-chain activity rather than a fixed number in this README - check them directly for up-to-date performance.
